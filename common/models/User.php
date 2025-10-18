@@ -31,6 +31,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     const STATUS_DELETED = -1;
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    public $re_one_password,$re_two_password;
     /**
      * {@inheritdoc}
      */
@@ -49,6 +50,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['status', 'role_id'], 'integer'],
             [['username','phone','name','role_id'],'required'],
             ['password','required','on'=>'insert'],
+            [['re_one_password','re_two_password'],'string'],
             [['name', 'username', 'auth_key', 'token', 'code', 'image', 'phone', 'chat_id'], 'string', 'max' => 255],
             [['password', 'access_token'], 'string', 'max' => 500],
             [['username'], 'unique'],
@@ -222,6 +224,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return Yii::$app->security->validatePassword($password, $this->password);
     }
 
+    public function validatePasswordUpdate($password,$pas)
+    {
+        return Yii::$app->security->validatePassword($password, $pas);
+    }
     /**
      * Generates password hash from password and sets it to the model
      *

@@ -84,7 +84,7 @@ class PaymentController extends Controller
             $model->loadDefaultValues();
         }
 
-        return $this->renderAjax('_form', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
     }
@@ -101,16 +101,17 @@ class PaymentController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-             $model->modify_id = Yii::$app->user->id;
+
+            $model->modify_id = Yii::$app->user->id;
             if($model->save()){
-                Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
+            Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
             }else{
-                Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
+            Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
             }
             return $this->redirect(['index']);
         }
 
-        return $this->renderAjax('_form', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
@@ -126,7 +127,11 @@ class PaymentController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = -1;
-        $model->save(false);
+        if($model->save()){
+            Yii::$app->session->setFlash('success','Ma`lumot o`chirildi');
+        }else{
+            Yii::$app->session->setFlash('success','Ma`lumotni o`chirishda xatolik');
+        }
         return $this->redirect(['index']);
     }
 

@@ -25,9 +25,9 @@
 
 
                 <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/sale'])?>" class="dropdown-toggle no-arrow <?= Yii::$app->controller->id == 'sale' ? 'active' : ''?>">
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/visit'])?>" class="dropdown-toggle no-arrow <?= Yii::$app->controller->id == 'visit' ? 'active' : ''?>">
                         <span class="micon bi bi-list-check"></span>
-                        <span class="mtext">Shartnomalar</span>
+                        <span class="mtext">Tashriflar</span>
                     </a>
                 </li>
 
@@ -38,46 +38,22 @@
                     </a>
                     <ul class="submenu">
                         <li>
-                            <a href="<?= Yii::$app->urlManager->createUrl(['/cp/paid'])?>" class="dropdown-toggle no-arrow <?= (Yii::$app->controller->id == 'paid') ? 'active' : ''?>">
+                            <a href="<?= Yii::$app->urlManager->createUrl(['/cp/client-paid'])?>" class="dropdown-toggle no-arrow <?= (Yii::$app->controller->id == 'client-paid') ? 'active' : ''?>">
                                 <span class="mtext">Tushumlar</span>
                             </a>
                         </li>
-                        <li><a class="<?= (Yii::$app->controller->id == 'paid-worker') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/paid-worker'])?>">Xodimlarga to'lovlar</a></li>
-                        <li><a class="<?= (Yii::$app->controller->id == 'paid-other') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/paid-other'])?>">Boshqa to'lovlar</a></li>
-                        <li><a class="<?= (Yii::$app->controller->id == 'paid-other-group') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/paid-other-group'])?>">Boshqa to'lov turlari</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'doctor-paid') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/doctor-paid'])?>">Doktorlarga to`lovlar</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'referal-paid') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/referal-paid'])?>">Hamkorlarga to`lovlar</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'other-paid') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/other-paid'])?>">Boshqa to'lovlar</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle">
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/service'])?>" class="dropdown-toggle no-arrow <?= Yii::$app->controller->id == 'service' ? 'active' : ''?>">
                         <span class="micon bi bi-list"></span>
                         <span class="mtext">Xizmatlar</span>
                     </a>
-                    <ul class="submenu">
-                        <li><a class="<?= Yii::$app->controller->id == 'product' ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/product'])?>">Xizmatlar ro'yhati</a></li>
-                        <li><a class="<?= Yii::$app->controller->id == 'product-group' ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/product-group'])?>">Xizmatlar turlari</a></li>
-                        <li><a class="<?= Yii::$app->controller->id == 'product-unit' ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/product-unit'])?>">Xizmatlar birliklari</a></li>
-                    </ul>
                 </li>
 
-                <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle">
-                        <span class="micon bi bi-person-badge"></span>
-                        <span class="mtext">Brigadirlar</span>
-                    </a>
-                    <ul class="submenu">
-                        <li><a class="<?= (Yii::$app->controller->id == 'worker'
-                                and Yii::$app->controller->action->id != 'credit'
-                                and Yii::$app->controller->action->id != 'debt'
-                            ) ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/worker'])?>">Brigadirlar ro'yhati</a></li>
-                        <li><a class="<?= (Yii::$app->controller->id == 'worker'
-                                and Yii::$app->controller->action->id == 'credit'
-                            ) ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/worker/credit'])?>">Qarzlarim</a></li>
-                        <li><a class="<?= (Yii::$app->controller->id == 'worker'
-                                and Yii::$app->controller->action->id == 'debt'
-                            ) ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/worker/debt'])?>">Ortiqcha to'lganlarim</a></li>
-
-                    </ul>
-                </li>
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle">
                         <span class="micon bi bi-people"></span>
@@ -95,11 +71,9 @@
                                 and Yii::$app->controller->action->id == 'debt'
                             ) ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/client/debt'])?>">Ortiqcha to'laganlar</a></li>
 
-                        <li><a class="<?= Yii::$app->controller->id == 'client-type' ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/client-type'])?>">Mijoz turlari</a></li>
+                        <li><a class="<?= Yii::$app->controller->id == 'client-group' ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/client-group'])?>">Mijoz guruhlari</a></li>
                     </ul>
                 </li>
-
-
 
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle">
@@ -113,6 +87,7 @@
                             </a>
                         </li>
                         <li><a class="<?= (Yii::$app->controller->id == 'payment') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/payment'])?>">To'lov turlari</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'other-paid-type') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/payment'])?>">Boshqa xarajat guruhlari</a></li>
                     </ul>
                 </li>
 

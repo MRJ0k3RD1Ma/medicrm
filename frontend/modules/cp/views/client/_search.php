@@ -17,19 +17,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'image') ?>
-
-    <?= $form->field($model, 'type_id') ?>
-
     <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'phone') ?>
 
-    <?php // echo $form->field($model, 'phone_two') ?>
+    <?= $form->field($model, 'group_id') ?>
 
-    <?php // echo $form->field($model, 'comment') ?>
+    <?= $form->field($model, 'gender') ?>
+
+    <?php // echo $form->field($model, 'birthday') ?>
+
+    <?php // echo $form->field($model, 'region_id') ?>
+
+    <?php // echo $form->field($model, 'district_id') ?>
+
+    <?php // echo $form->field($model, 'address') ?>
 
     <?php // echo $form->field($model, 'balance') ?>
+
+    <?php // echo $form->field($model, 'description') ?>
+
+    <?php // echo $form->field($model, 'source_id') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

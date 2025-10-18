@@ -3,17 +3,11 @@
 namespace frontend\modules\cp\controllers;
 
 use common\models\Client;
-use common\models\Paid;
 use common\models\search\ClientSearch;
-use common\models\search\PaidSearch;
-use common\models\search\SaleSearch;
-use frontend\components\Common;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Yii;
-use yii\web\UploadedFile;
-
 /**
  * ClientController implements the CRUD actions for Client model.
  */
@@ -53,29 +47,6 @@ class ClientController extends Controller
         ]);
     }
 
-    public function actionCredit()
-    {
-        $searchModel = new ClientSearch();
-        $searchModel->balanceType = 'credit';
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-    public function actionDebt()
-    {
-        $searchModel = new ClientSearch();
-        $searchModel->balanceType = 'debt';
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
     /**
      * Displays a single Client model.
      * @param int $id ID
@@ -84,22 +55,8 @@ class ClientController extends Controller
      */
     public function actionView($id)
     {
-
-        $searchSaleModel = new SaleSearch();
-        $searchSaleModel->client_id = $id;
-        $dataSaleProvider = $searchSaleModel->search($this->request->queryParams);
-
-        $searchPaidModel = new PaidSearch();
-        $searchPaidModel->client_id = $id;
-        $dataPaidProvider = $searchPaidModel->search($this->request->queryParams);
-
-
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'searchSaleModel' => $searchSaleModel,
-            'dataSaleProvider' => $dataSaleProvider,
-            'searchPaidModel' => $searchPaidModel,
-            'dataPaidProvider' => $dataPaidProvider,
         ]);
     }
 
@@ -116,25 +73,18 @@ class ClientController extends Controller
             if ($model->load($this->request->post())) {
                 $model->register_id = Yii::$app->user->id;
                 $model->modify_id = Yii::$app->user->id;
-                if($model->image = UploadedFile::getInstance($model,'image')){
-                    $name = 'client/'.microtime(true).'.'.$model->image->extension;
-                    $model->image->saveAs(Yii::$app->basePath.'/web/upload/'.$name);
-                    $model->image = $name;
-                }else{
-                    $model->image = "default/avatar.png";
-                }
                 if($model->save()){
                     Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
                 }else{
                     Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
                 }
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->renderAjax('_form', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
     }
@@ -149,25 +99,19 @@ class ClientController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $img = $model->image;
+
         if ($this->request->isPost && $model->load($this->request->post())) {
-             $model->modify_id = Yii::$app->user->id;
-            if($model->image = UploadedFile::getInstance($model,'image')){
-                $name = 'client/'.microtime(true).'.'.$model->image->extension;
-                $model->image->saveAs(Yii::$app->basePath.'/web/upload/'.$name);
-                $model->image = $name;
-            }else{
-                $model->image = $img;
-            }
+
+            $model->modify_id = Yii::$app->user->id;
             if($model->save()){
-                Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
+            Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
             }else{
-                Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
+            Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
-        return $this->renderAjax('_form', [
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }
@@ -183,7 +127,11 @@ class ClientController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = -1;
-        $model->save(false);
+        if($model->save()){
+            Yii::$app->session->setFlash('success','Ma`lumot o`chirildi');
+        }else{
+            Yii::$app->session->setFlash('success','Ma`lumotni o`chirishda xatolik');
+        }
         return $this->redirect(['index']);
     }
 
@@ -202,56 +150,4 @@ class ClientController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    public function actionDeletepaying($id)
-    {
-        $model = Paid::findOne($id);
-        if($model){
-            $model->status = -1;
-            $model->save(false);
-            Common::calcPriceClient($model->client_id);
-            Yii::$app->session->setFlash('success','Qo`shilgan to`lov o`chirildi');
-            return $this->redirect(['view', 'id' => $model->client_id]);
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    public function actionUpdatepaying($id){
-        $model = Paid::findOne($id);
-        if($model){
-            if($model->load($this->request->post())){
-                $model->modify_id = Yii::$app->user->id;
-                $model->save(false);
-                Common::calcPriceClient($model->client_id);
-                Yii::$app->session->setFlash('success','To`lov ma`lumotlarni o`zgartirildi');
-                return $this->redirect(['view', 'id' => $model->client_id]);
-            }
-            return $this->renderAjax('_paying', [
-                'model'=>$model,
-            ]);
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    public function actionPaying($id)
-    {
-        $model = new Paid();
-        $client = $this->findModel($id);
-        $model->client_id = $client->id;
-        if($model->load($this->request->post())){
-            $model->modify_id = Yii::$app->user->id;
-            $model->register_id = Yii::$app->user->id;
-            $model->client_id = $client->id;
-            $model->save(false);
-            Common::calcPriceClient($model->client_id);
-            Yii::$app->session->setFlash('success','To`lov qabul qilindi');
-            return $this->redirect(['view', 'id' => $model->client_id]);
-        }
-        return $this->renderAjax('_paying', [
-            'model'=>$model,
-        ]);
-    }
-
-
-
 }

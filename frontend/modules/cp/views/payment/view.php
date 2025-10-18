@@ -12,16 +12,17 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="payment-view">
-
     <div class="card">
         <div class="card-body">
-            
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <p>
         <?= Html::a('O`zgartirish', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('O`chirish', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Siz rostdan ham ushbu ma`lumotni o`chirmoqchimisiz?',
+                'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
