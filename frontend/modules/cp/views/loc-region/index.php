@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\LocRegionSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Loc Regions';
+$this->title = 'Viloyatlar ro`yhati';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="loc-region-index">
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-        <?= Html::button('Yaratish Loc Region', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['create'])]) ?>
+        <?= Html::button('Viloyat qo`shish', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['/cp/loc-region/create'])]) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -31,24 +31,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute'=>'id',
+                'attribute'=>'name',
                 'value'=>function($d){
-                    $url = Yii::$app->urlManager->createUrl(['view','id'=>$d->id]);
-                    return Html::a($d->id,$url);
+                    $url = Yii::$app->urlManager->createUrl(['/cp/loc-region/update','id'=>$d->id]);
+                    return Html::button($d->name,['class'=>'btn btn-link md-btnupdate','value'=>$url]);
                 },
                 'format'=>'raw',
             ],
-            'id',
+//            'id',
             'name',
-            'status',
+//            'status',
             'created',
-            'updated',
+//            'updated',
             [
                 'attribute'=>'status',
                 'value'=>function($d){
                     return Yii::$app->params['status'][$d->status];
                 },
                 'filter'=>Yii::$app->params['status'],
+            ],
+            [
+                'label'=>'',
+                'value'=>function($d){
+                    $url = Yii::$app->urlManager->createUrl(['/cp/loc-region/delete','id'=>$d->id]);
+                    return Html::a('<span class="fa fa-trash"></span>',$url,['class'=>'btn btn-danger','data-method'=>'post','data-confirm'=>'Siz rostdan ham ushbu elementni o`chirmoqchimisiz?']);
+                },
+                'format'=>'raw',
             ],
         ],
     ]); ?>

@@ -71,8 +71,6 @@ class LocDistrictController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $model->register_id = Yii::$app->user->id;
-                $model->modify_id = Yii::$app->user->id;
                 if($model->save()){
                     Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
                 }else{
@@ -102,7 +100,6 @@ class LocDistrictController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post())) {
 
-            $model->modify_id = Yii::$app->user->id;
             if($model->save()){
             Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
             }else{

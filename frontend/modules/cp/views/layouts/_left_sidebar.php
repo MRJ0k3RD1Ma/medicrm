@@ -47,12 +47,6 @@
                         <li><a class="<?= (Yii::$app->controller->id == 'other-paid') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/other-paid'])?>">Boshqa to'lovlar</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/service'])?>" class="dropdown-toggle no-arrow <?= Yii::$app->controller->id == 'service' ? 'active' : ''?>">
-                        <span class="micon bi bi-list"></span>
-                        <span class="mtext">Xizmatlar</span>
-                    </a>
-                </li>
 
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle">
@@ -75,6 +69,15 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/service'])?>" class="dropdown-toggle no-arrow <?= Yii::$app->controller->id == 'service' ? 'active' : ''?>">
+                        <span class="micon bi bi-list"></span>
+                        <span class="mtext">Xizmatlar</span>
+                    </a>
+                </li>
+
+
+
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle">
                         <span class="micon bi bi-gear-fill"></span>
@@ -87,7 +90,10 @@
                             </a>
                         </li>
                         <li><a class="<?= (Yii::$app->controller->id == 'payment') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/payment'])?>">To'lov turlari</a></li>
-                        <li><a class="<?= (Yii::$app->controller->id == 'other-paid-type') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/payment'])?>">Boshqa xarajat guruhlari</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'departament') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/departament'])?>">Bo`limlar</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'other-paid-group') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/other-paid-group'])?>">Boshqa xarajat guruhlari</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'loc-region') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/loc-region'])?>">Viloyatlar</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'loc-district') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/loc-district'])?>">Tumanlar</a></li>
                     </ul>
                 </li>
 
