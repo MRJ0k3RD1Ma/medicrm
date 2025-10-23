@@ -92,6 +92,7 @@
                         <li><a class="<?= (Yii::$app->controller->id == 'payment') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/payment'])?>">To'lov turlari</a></li>
                         <li><a class="<?= (Yii::$app->controller->id == 'departament') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/departament'])?>">Bo`limlar</a></li>
                         <li><a class="<?= (Yii::$app->controller->id == 'other-paid-group') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/other-paid-group'])?>">Boshqa xarajat guruhlari</a></li>
+                        <li><a class="<?= (Yii::$app->controller->id == 'source') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/source'])?>">Eshitilgan manbalar</a></li>
                         <li><a class="<?= (Yii::$app->controller->id == 'loc-region') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/loc-region'])?>">Viloyatlar</a></li>
                         <li><a class="<?= (Yii::$app->controller->id == 'loc-district') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/loc-district'])?>">Tumanlar</a></li>
                     </ul>
