@@ -43,7 +43,7 @@ class Room extends ActiveRecord
             [['created', 'updated'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['state'], 'in', 'range' => ['WORKING', 'CLOSED', 'FULL']],
-
+            [['departament_id','user_id','name'],'required'],
             [
                 ['departament_id'],
                 'exist',

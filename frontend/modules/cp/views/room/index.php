@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Room;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -10,7 +11,7 @@ use yii\grid\GridView;
 /** @var common\models\search\RoomSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Rooms';
+$this->title = 'Xonalar ro`yhati';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="room-index">
@@ -18,9 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="card">
     <div class="card-body">
 
-
     <p>
-        <?= Html::button('Yaratish Room', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['create'])]) ?>
+        <?= Html::button('Xona qo`shish', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['/cp/room/create'])]) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -31,22 +31,36 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute'=>'id',
+                'attribute'=>'name',
                 'value'=>function($d){
-                    $url = Yii::$app->urlManager->createUrl(['view','id'=>$d->id]);
-                    return Html::a($d->id,$url);
+                    $url = Yii::$app->urlManager->createUrl(['/cp/room/update','id'=>$d->id]);
+                    return Html::button($d->name,['class'=>'btn btn-link md-btnupdate','value'=>$url]);
                 },
                 'format'=>'raw',
             ],
-            'id',
-            'name',
-            'departament_id',
+//            'id',
+//            'name',
+//            'departament_id',
+            [
+                'attribute'=>'departament_id',
+                'value'=>function($d){
+                    return $d->departament->name;
+                },
+                'filter'=>ArrayHelper::map(\common\models\Departament::find()->all(),'id','name'),
+            ],
             'capacity',
             'count_patient',
             //'user_id',
-            //'price',
+            'price',
+            [
+                'attribute'=>'user_id',
+                'value'=>function($d){
+                    return $d->user->name;
+                },
+                'filter'=>ArrayHelper::map(\common\models\User::find()->all(),'id','name'),
+            ],
             //'price_food',
-            //'state',
+//            'state',
             //'status',
             //'created',
             //'updated',
@@ -58,6 +72,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Yii::$app->params['status'][$d->status];
                 },
                 'filter'=>Yii::$app->params['status'],
+            ],
+            'created',
+            [
+                'label'=>'',
+                'format'=>'raw',
+                'value'=>function($d){
+                    $url = Yii::$app->urlManager->createUrl(['/cp/room/delete','id'=>$d->id]);
+                    return Html::a("<span class='fa fa-trash'></span>",$url,['class'=>'btn btn-danger','data-method'=>'post','data-confirm'=>'Are you sure you want to delete this item?']);
+                }
             ],
         ],
     ]); ?>
