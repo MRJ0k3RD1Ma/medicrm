@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\search\ReferalSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Referals';
+$this->title = 'Hamkorlar guruhi';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="referal-index">
@@ -20,10 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-        <?= Html::button('Yaratish Referal', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['create'])]) ?>
+        <?= Html::button('Hamkor qo`shish', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['/cp/referal/create'])]) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -31,20 +30,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute'=>'id',
+                'attribute'=>'name',
                 'value'=>function($d){
-                    $url = Yii::$app->urlManager->createUrl(['view','id'=>$d->id]);
-                    return Html::a($d->id,$url);
+                    $url = Yii::$app->urlManager->createUrl(['/cp/referal/view','id'=>$d->id]);
+                    return Html::a($d->name,$url);
                 },
                 'format'=>'raw',
             ],
-            'id',
             'name',
             'phone',
-            'description:ntext',
+            'balance',
             'percent',
             //'status',
-            //'created',
+            'created',
             //'updated',
             //'register_id',
             //'modify_id',

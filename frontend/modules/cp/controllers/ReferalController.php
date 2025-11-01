@@ -104,11 +104,11 @@ class ReferalController extends Controller
 
             $model->modify_id = Yii::$app->user->id;
             if($model->save()){
-            Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
+                Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
             }else{
-            Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
+                Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
             }
-            return $this->redirect(['index']);
+            return $this->redirect(['view','id'=>$id]);
         }
 
         return $this->renderAjax('update', [

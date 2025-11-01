@@ -32,12 +32,12 @@ class Referal extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'phone'], 'required'],
+            [['name', 'phone','percent'], 'required'],
             [['description'], 'string'],
             [['percent', 'status', 'register_id', 'modify_id'], 'integer'],
             [['created', 'updated'], 'safe'],
             [['name', 'phone'], 'string', 'max' => 255],
-
+            ['balance','number'],
             [
                 ['register_id'],
                 'exist',
@@ -68,6 +68,7 @@ class Referal extends ActiveRecord
             'updated' => 'O`zgartirildi',
             'register_id' => 'Kiritdi',
             'modify_id' => 'O`zgartirdi',
+            'balance'=>'Balans'
         ];
     }
 

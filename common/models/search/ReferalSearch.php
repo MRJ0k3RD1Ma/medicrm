@@ -18,7 +18,7 @@ class ReferalSearch extends Referal
     {
         return [
             [['id', 'percent', 'status', 'register_id', 'modify_id'], 'integer'],
-            [['name', 'phone', 'description', 'created', 'updated'], 'safe'],
+            [['name', 'phone', 'description', 'created', 'updated','balance'], 'safe'],
         ];
     }
 

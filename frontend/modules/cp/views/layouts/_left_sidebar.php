@@ -76,6 +76,21 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="javascript:;" class="dropdown-toggle">
+                        <span class="micon bi bi-person"></span>
+                        <span class="mtext">Foydalanuvchilar</span>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>" class="dropdown-toggle no-arrow <?= (Yii::$app->controller->id == 'user') ? 'active' : ''?>">
+                                <span class="mtext">Foydalanuvchilar</span>
+                            </a>
+                        </li>
+                        <li><a class="<?= Yii::$app->controller->id == 'referal' ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/referal'])?>">Hamkorlar</a></li>
+                    </ul>
+                </li>
+
 
 
                 <li class="dropdown">
@@ -84,11 +99,7 @@
                         <span class="mtext">Sozlamalar</span>
                     </a>
                     <ul class="submenu">
-                        <li>
-                            <a href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>" class="dropdown-toggle no-arrow <?= (Yii::$app->controller->id == 'user') ? 'active' : ''?>">
-                                <span class="mtext">Foydalanuvchilar</span>
-                            </a>
-                        </li>
+
                         <li><a class="<?= (Yii::$app->controller->id == 'payment') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/payment'])?>">To'lov turlari</a></li>
                         <li><a class="<?= (Yii::$app->controller->id == 'departament') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/departament'])?>">Bo`limlar</a></li>
                         <li><a class="<?= (Yii::$app->controller->id == 'room') ? 'active' : ''?>" href="<?= Yii::$app->urlManager->createUrl(['/cp/room'])?>">Xonalar</a></li>

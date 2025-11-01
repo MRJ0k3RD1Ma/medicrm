@@ -81,7 +81,7 @@ AppAsset::register($this);
                 </div>
             </div>
             <div class="footer-wrap pd-20 mb-20 card-box">
-                OKSERVICE.UZ - <a href="http://milliondastur.uz" target="_blank">Dilmurod Allabergenov</a> All rights reserved &copy;<?= date('Y')?>
+                MEDICRM.UZ - <a href="tel:+998335130007" target="_blank">Ruslan Raximberganov TEL: +998(33)513-00-07</a> All rights reserved &copy;<?= date('Y')?>
             </div>
         </div>
 

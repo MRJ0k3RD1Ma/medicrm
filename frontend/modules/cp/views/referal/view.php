@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var common\models\Referal $model */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Referals', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Hamkorlar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -15,10 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card">
         <div class="card-body">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('O`zgartirish', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::button('O`zgartirish', ['class' => 'btn btn-primary md-btnupdate','value'=>Yii::$app->urlManager->createUrl(['/cp/referal/update', 'id' => $model->id])]) ?>
         <?= Html::a('O`chirish', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -28,21 +27,41 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'phone',
-            'description:ntext',
-            'percent',
-            'status',
-            'created',
-            'updated',
-            'register_id',
-            'modify_id',
-        ],
-    ]) ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= DetailView::widget([
+                        'model' => $model,
+                        'attributes' => [
+                            'id',
+                            'name',
+                            'phone',
+                            'balance',
+                            'description:ntext',
+                            'percent',
+                            'status',
+                            'created',
+                            'updated',
+//            'register_id',
+                            [
+                                'attribute'=>'register_id',
+                                'value'=>function($model){
+                                    return $model->register->name;
+                                }
+                            ],
+                            [
+                                'attribute'=>'modify_id',
+                                'value'=>function($model){
+                                    return $model->modify->name;
+                                }
+                            ],
+//            'modify_id',
+                        ],
+                    ]) ?>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
 
         </div>
     </div>
