@@ -5,6 +5,7 @@ namespace frontend\modules\cp\controllers;
 use common\models\Client;
 use common\models\LocDistrict;
 use common\models\search\ClientSearch;
+use frontend\components\Common;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -76,6 +77,11 @@ class ClientController extends Controller
                 $model->register_id = Yii::$app->user->id;
                 $model->modify_id = Yii::$app->user->id;
                 if($model->save()){
+                    if($model->source_id == 1){
+                        $phone = Common::phoneNumber($model->phone);
+                        $text = "Yangi referal \r\nIsmi:{$model->name} \r\nTel: {$phone}\r\n{$model->source->name}";
+                        Common::sendInfoAboutReferal($text);
+                    }
                     Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
                     return $this->redirect(['view','id'=>$model->id]);
 
@@ -103,9 +109,20 @@ class ClientController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $source_id = $model->source_id;
         if ($this->request->isPost && $model->load($this->request->post())) {
+            if($model->source_id != 1 and $source_id == 1){
+                $phone = Common::phoneNumber($model->phone);
+                $text = "Referal ma`lumoti o`zgartirildi \r\nIsmi:{$model->name} \r\nTel: {$phone}\r\n{$model->source->name}";
 
+                Common::sendInfoAboutReferal($text);
+            }
+            if($model->source_id == 1 and $source_id != 1){
+                $phone = Common::phoneNumber($model->phone);
+                $text = "Referal ma`lumoti o`zgartirildi \r\nIsmi:{$model->name} \r\nTel: {$phone}\r\n{$model->source->name}";
+
+                Common::sendInfoAboutReferal($text);
+            }
             $model->modify_id = Yii::$app->user->id;
             if($model->save()){
             Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');

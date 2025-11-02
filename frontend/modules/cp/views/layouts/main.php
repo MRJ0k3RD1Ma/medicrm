@@ -40,6 +40,55 @@ AppAsset::register($this);
                 background-color: #DDD;
                 border-radius: 5px;
             }
+            .oneline{
+                flex: 1 1 auto;       /* kengayadi, qolgan joyni oladi */
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                display: block;
+                line-height: 1.4;
+                max-width: 250px;
+                word-break: normal; /* so'zlarni kesishni nazorat qilish */
+                transition: max-height 0.25s ease; /* ixtiyoriy vizual yumshatuvchi effekt */
+            }
+            /* tooltip stili (hoverda paydo bo'ladi) */
+            .oneline[data-full]:hover::after{
+                content: attr(data-full);
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 100%; /* element ustida paydo bo'ladi */
+                margin-bottom: 8px;
+                white-space: normal; /* ko'pi bilan yangi qatorlarga o'tsin */
+                max-width: 400px; /* tooltip kengligi */
+                width:300px;
+                padding: 8px 10px;
+                border-radius: 6px;
+                box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+                background: #222;
+                color: #fff;
+                font-size: 13px;
+                line-height: 1.3;
+                z-index: 9999;
+            }
+
+            /* kichik uchburchak (tooltip ostida) */
+            .oneline[data-full]:hover::before{
+                content: "";
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 100%;
+                margin-bottom: 2px;
+                border-width: 6px;
+                border-style: solid;
+                border-color: transparent transparent #222 transparent;
+                z-index: 9999;
+            }
+            @media (hover: none){
+                .oneline[data-full]:active::after,
+                .oneline[data-full]:active::before{ display: block; }
+            }
         </style>
     </head>
     <body class="sidebar-light header-white">
@@ -88,7 +137,7 @@ AppAsset::register($this);
     </div>
 
 
-    <div class="modal" id="md-modalcreate" tabindex="-1" role="dialog">
+    <div class="modal" id="md-modalcreate" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -104,7 +153,7 @@ AppAsset::register($this);
         </div>
     </div>
 
-    <div class="modal" id="md-modalupdate" tabindex="-1" role="dialog">
+    <div class="modal" id="md-modalupdate" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="modal-header">

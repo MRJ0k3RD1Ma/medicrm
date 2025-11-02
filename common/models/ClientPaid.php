@@ -29,7 +29,7 @@ class ClientPaid extends ActiveRecord
 {
     public static function tableName()
     {
-        return 'md_clinic.client_paid';
+        return 'client_paid';
     }
 
     public function rules()

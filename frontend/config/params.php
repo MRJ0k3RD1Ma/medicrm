@@ -1,6 +1,10 @@
 <?php
 return [
     'adminEmail' => 'admin@example.com',
+    'bot'=>'8393931998:AAHOha7Vg098E-oTEOiYguhLHWeWmE0MDAQ',
+    'chatIds'=>[
+        86419074
+    ],
     'gender'=>[
         'MALE'=>'Erkak',
         'FEMALE'=>'Ayol',

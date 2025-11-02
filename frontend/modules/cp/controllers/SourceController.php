@@ -124,12 +124,15 @@ class SourceController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = -1;
-        $model->modify_id = Yii::$app->user->id;
-
+//        $model->modify_id = Yii::$app->user->id;
+        if($model->id == 1){
+            Yii::$app->session->setFlash('error','Ma`lumotni o`chirishda xatolik');
+            return $this->redirect(['index']);
+        }
         if($model->save()){
             Yii::$app->session->setFlash('success','Ma`lumot o`chirildi');
         }else{
-            Yii::$app->session->setFlash('success','Ma`lumotni o`chirishda xatolik');
+            Yii::$app->session->setFlash('error','Ma`lumotni o`chirishda xatolik');
         }
         return $this->redirect(['index']);
     }

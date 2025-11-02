@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var common\models\Client $model */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Mijozlar ro`yhati', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -15,10 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card">
         <div class="card-body">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('O`zgartirish', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::button('O`zgartirish', ['class' => 'btn btn-primary md-btnupdate','value'=>Yii::$app->urlManager->createUrl(['/cp/client/update', 'id' => $model->id])]) ?>
         <?= Html::a('O`chirish', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -28,28 +27,59 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'phone',
-            'group_id',
-            'gender',
-            'birthday',
-            'region_id',
-            'district_id',
-            'address',
-            'balance',
-            'description:ntext',
-            'source_id',
-            'status',
-            'created',
-            'updated',
-            'register_id',
-            'modify_id',
-        ],
-    ]) ?>
+            <div class="row">
+                <div class="col-md-4">
+
+                    <?= DetailView::widget([
+                        'model' => $model,
+                        'attributes' => [
+                            'id',
+                            'name',
+                            'phone',
+                            'balance',
+                            'source.name',
+//                            'gender',
+                            [
+                                'attribute'=>'gender',
+                                'value'=>function($model){
+                                    return Yii::$app->params['gender'][$model->gender];
+                                }
+                            ],
+                            'birthday',
+//                            'address',
+                            [
+                                'attribute'=>'address',
+                                'value'=>function($model){
+                                    return $model->region->name.' '.$model->district->name.' '.$model->address;
+                                }
+                            ],
+                            'group.name',
+                            'description:ntext',
+
+//                            'status',
+                            [
+                                'attribute'=>'status',
+                                'value'=>function($model){
+                                    return Yii::$app->params['status'][$model->status];
+                                }
+                            ],
+                            'created',
+                            'updated',
+                            [
+                                'attribute'=>'register_id',
+                                'value'=>function($model){return $model->register->name;}
+                            ],
+                            [
+                                'attribute'=>'modify_id',
+                                'value'=>function($model){return $model->modify->name;}
+                            ],
+                        ],
+                    ]) ?>
+                </div>
+                <div class="col-md-8">
+
+                </div>
+            </div>
 
         </div>
     </div>
