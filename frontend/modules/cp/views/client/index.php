@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Client;
+use common\models\ClientGroup;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -10,7 +11,7 @@ use yii\grid\GridView;
 /** @var common\models\search\ClientSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Clients';
+$this->title = 'Mijozlar ro`yhati';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="client-index">
@@ -20,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-        <?= Html::button('Yaratish Client', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['create'])]) ?>
+        <?= Html::button('Mijoz qo`shish', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['/cp/client/create'])]) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -31,25 +32,60 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute'=>'id',
+                'attribute'=>'name',
                 'value'=>function($d){
-                    $url = Yii::$app->urlManager->createUrl(['view','id'=>$d->id]);
-                    return Html::a($d->id,$url);
+                    $url = Yii::$app->urlManager->createUrl(['/cp/client/view','id'=>$d->id]);
+                    return Html::a($d->name,$url);
                 },
                 'format'=>'raw',
             ],
-            'id',
-            'name',
+//            'id',
+//            'name',
             'phone',
-            'group_id',
-            'gender',
+//            'group_id',
+            [
+                'attribute'=>'group_id',
+                'value'=>function($d){
+                    return $d->group->name;
+                },
+                'filter'=>\yii\helpers\ArrayHelper::map(ClientGroup::find()->where(['status'=>1])->all(),'id','name'),
+            ],
+            [
+                'attribute'=>'gender',
+                'value'=>function($d){
+                    return Yii::$app->params['gender'][$d->gender];
+                },
+                'filter'=>Yii::$app->params['gender'],
+            ],
+//            'gender',
             //'birthday',
-            //'region_id',
-            //'district_id',
+//            'region_id',
+            [
+                'attribute'=>'region_id',
+                'value'=>function($d){
+                    return $d->region->name;
+                },
+                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\LocRegion::find()->where(['status'=>1])->all(),'id','name')
+            ],
+            [
+                'attribute'=>'district_id',
+                'value'=>function($d){
+                    return $d->district->name;
+                },
+                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\LocDistrict::find()->where(['status'=>1])->andWhere(['region_id'=>$searchModel->region_id])->all(),'id','name')
+            ],
+//            'district_id',
             //'address',
-            //'balance',
+            'balance',
             //'description:ntext',
             //'source_id',
+            [
+                'attribute'=>'source_id',
+                'value'=>function($d){
+                    return $d->source->name;
+                },
+                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Source::find()->where(['status'=>1])->all(),'id','name')
+            ],
             //'status',
             //'created',
             //'updated',

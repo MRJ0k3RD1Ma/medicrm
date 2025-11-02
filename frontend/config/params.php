@@ -2,8 +2,8 @@
 return [
     'adminEmail' => 'admin@example.com',
     'gender'=>[
-        0=>'Ayol',
-        1=>'Erkak',
+        'MALE'=>'Erkak',
+        'FEMALE'=>'Ayol',
     ],
     'status'=>[
         1=>'Aktiv',

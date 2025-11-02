@@ -3,6 +3,7 @@
 namespace frontend\modules\cp\controllers;
 
 use common\models\Client;
+use common\models\LocDistrict;
 use common\models\search\ClientSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -68,17 +69,20 @@ class ClientController extends Controller
     public function actionCreate()
     {
         $model = new Client();
-
+        $model->region_id = "1733";
+        $model->district_id = "1733401";
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $model->register_id = Yii::$app->user->id;
                 $model->modify_id = Yii::$app->user->id;
                 if($model->save()){
                     Yii::$app->session->setFlash('success','Ma`lumot muvoffaqiyatli saqlandi');
+                    return $this->redirect(['view','id'=>$model->id]);
+
                 }else{
                     Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
+                    return $this->redirect(['index']);
                 }
-                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -108,7 +112,7 @@ class ClientController extends Controller
             }else{
             Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
             }
-            return $this->redirect(['index']);
+            return $this->redirect(['view','id'=>$model->id]);
         }
 
         return $this->renderAjax('update', [
@@ -127,6 +131,7 @@ class ClientController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = -1;
+        $model->modify_id = Yii::$app->user->id;
         if($model->save()){
             Yii::$app->session->setFlash('success','Ma`lumot o`chirildi');
         }else{
@@ -135,6 +140,14 @@ class ClientController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionGetDistrictByRegionId($id){
+        $model = LocDistrict::find()->where(['status'=>1])->all();
+        $res = "";
+        foreach ($model as $item){
+            $res .= "<option value='".$item->id."'>".$item->name."</option>";
+        }
+        return $res;
+    }
     /**
      * Finds the Client model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
