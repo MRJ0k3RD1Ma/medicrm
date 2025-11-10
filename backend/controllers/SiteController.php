@@ -106,4 +106,52 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionFiscal(){
+        $post = Yii::$app->request->post();
+        if($post['method'] == 'get-info'){
+            return [
+                "msg"=> "succes",
+                "code"=> "0",
+                "resInfo"=> [
+                    "token"=> "00120000010b02056a200014003100314090",
+                    "date"=> "2024-10-14 10:12:43"
+                ]
+
+            ];
+        }elseif($post['method'] == 'send-receipt'){
+            return [
+                "msg"=> "succes",
+                "code"=> "0",
+                "resInfo"=> [
+                    "jsonrpc"=> "2.0",
+                    "result"=> [
+                        "AppletVersion"=> "0323",
+                        "QueuedToSendCount"=> 0
+                    ],
+                    "id"=> 1
+                ]
+            ];
+        }elseif($post['method'] == 'sale-services'){
+            return [
+                "msg" => "succes",
+                "code"=> "0",
+                "resInfo"=> [
+                    "jsonrpc"=> "2.0",
+                    "result"=> [
+                        "TerminalID"=> "UZ191211501012",
+                        "ReceiptSeq"=> "1847",
+                        "DateTime"=> "20241014121646",
+                        "FiscalSign"=> "454042927337",
+                        "AppletVersion"=> "0323",
+                        "QRCodeURL"=> "https://ofd.soliq.uz/check?t=UZ191211501012&r=1847&c=20241014121646&s=454042927337"
+                    ],
+                    "id"=> 1
+                ]
+            ];
+        }
+
+
+        return "novi";
+    }
+
 }

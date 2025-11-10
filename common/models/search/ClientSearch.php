@@ -11,6 +11,7 @@ use Yii;
  */
 class ClientSearch extends Client
 {
+    public $show_type;
     /**
      * {@inheritdoc}
      */
@@ -60,6 +61,11 @@ class ClientSearch extends Client
             return $dataProvider;
         }
 
+        if($this->show_type == 'credit'){
+            $query->andWhere(['<','balance',0]);
+        }elseif($this->show_type == 'debit'){
+            $query->andWhere(['>','balance',0]);
+        }
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

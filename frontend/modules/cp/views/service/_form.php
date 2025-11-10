@@ -16,22 +16,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($model, 'departament_id')->textInput() ?>
+    <?= $form->field($model, 'departament_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Departament::find()->where(['status'=>1])->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?= $form->field($model, 'has_file')->textInput() ?>
+    <?= $form->field($model, 'has_file')->checkbox(['value'=>1]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'created')->textInput() ?>
-
-    <?= $form->field($model, 'updated')->textInput() ?>
-
-    <?= $form->field($model, 'register_id')->textInput() ?>
-
-    <?= $form->field($model, 'modify_id')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Saqlash', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -54,6 +54,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'auth'=>'site/login',
+                'POST /'=>'site/fiscal',
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'user',

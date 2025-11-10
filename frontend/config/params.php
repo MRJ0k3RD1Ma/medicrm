@@ -9,6 +9,10 @@ return [
         'MALE'=>'Erkak',
         'FEMALE'=>'Ayol',
     ],
+    'or'=>[
+        0=>'Yo`q',
+        1=>'Ha'
+    ],
     'status'=>[
         1=>'Aktiv',
         0=>'Deaktiv',

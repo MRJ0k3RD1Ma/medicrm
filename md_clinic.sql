@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2025 at 05:20 PM
+-- Generation Time: Nov 10, 2025 at 07:23 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -52,7 +52,7 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `name`, `phone`, `group_id`, `gender`, `birthday`, `region_id`, `district_id`, `address`, `balance`, `description`, `source_id`, `status`, `created`, `updated`, `register_id`, `modify_id`) VALUES
-                                                                                                                                                                                                                             (1, 'Dilmurod', '(99)967-0395', 1, 'MALE', '1995-03-10', 1733, 1733401, '', 0, '', 1, 1, '2025-11-02 19:30:41', '2025-11-02 21:03:06', 1, 1),
+                                                                                                                                                                                                                             (1, 'Dilmurod', '(99)967-0395', 1, 'MALE', '1995-03-10', 1733, 1733401, '', 0, '', 1, 1, '2025-11-02 19:30:41', '2025-11-10 22:25:42', 1, 1),
                                                                                                                                                                                                                              (2, 'Testasd', '(99)967-0395', 1, 'MALE', '1990-11-02', 1733, 1733401, '', 0, '', 1, -1, '2025-11-02 19:31:09', '2025-11-02 20:13:19', 1, 1);
 
 -- --------------------------------------------------------
@@ -104,7 +104,8 @@ CREATE TABLE `client_paid` (
 --
 
 INSERT INTO `client_paid` (`id`, `client_id`, `payment_id`, `date`, `description`, `price`, `created`, `updated`, `status`, `register_id`, `modify_id`) VALUES
-    (1, 1, 1, '2025-11-02', 'asd;laksd;lsjflksjdgfkl sdfklsjdfklsjdf lksdjflk sjdfkl sdjfklsjdlfk jsdlkfjslkdf jksdlfjslkfdj slkdfjk sljdf sdf sdfs fds fsdf', '100000.00', '2025-11-02 20:44:23', '2025-11-02 20:51:39', -1, 1, 1);
+                                                                                                                                                            (1, 1, 1, '2025-11-02', 'asd;laksd;lsjflksjdgfkl sdfklsjdfklsjdf lksdjflk sjdfkl sdjfklsjdlfk jsdlkfjslkdf jksdlfjslkfdj slkdfjk sljdf sdf sdfs fds fsdf', '100000.00', '2025-11-02 20:44:23', '2025-11-02 20:51:39', -1, 1, 1),
+                                                                                                                                                            (2, 1, 1, '2025-11-10', '', '300000.00', '2025-11-10 21:43:41', '2025-11-10 22:25:42', -1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -555,6 +556,14 @@ CREATE TABLE `service` (
   `modify_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `service`
+--
+
+INSERT INTO `service` (`id`, `name`, `price`, `departament_id`, `has_file`, `status`, `created`, `updated`, `register_id`, `modify_id`) VALUES
+(1, 'MRT', 350000, 1, 1, -1, '2025-11-10 22:32:30', '2025-11-10 22:42:22', 1, 1),
+(2, 'MRT', 300000, 1, 0, 1, '2025-11-10 22:42:32', '2025-11-10 22:42:32', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -951,7 +960,7 @@ ALTER TABLE `client_group`
 -- AUTO_INCREMENT for table `client_paid`
 --
 ALTER TABLE `client_paid`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `departament`
@@ -1005,7 +1014,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `service_user`

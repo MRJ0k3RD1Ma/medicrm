@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Visit;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -10,7 +11,7 @@ use yii\grid\GridView;
 /** @var common\models\search\VisitSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Visits';
+$this->title = 'Tashriflar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="visit-index">
@@ -20,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-        <?= Html::button('Yaratish Visit', ['class' => 'btn btn-success md-btncreate','value'=>Yii::$app->urlManager->createUrl(['create'])]) ?>
+        <?= Html::a('Tashrif qo`shish',Yii::$app->urlManager->createUrl(['/cp/visit/create']), ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -31,21 +32,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute'=>'id',
+                'attribute'=>'visit_date',
                 'value'=>function($d){
-                    $url = Yii::$app->urlManager->createUrl(['view','id'=>$d->id]);
-                    return Html::a($d->id,$url);
+                    $url = Yii::$app->urlManager->createUrl(['/cp/visit/view','id'=>$d->id]);
+                    return Html::a($d->visit_date,$url);
                 },
                 'format'=>'raw',
             ],
-            'id',
-            'client_id',
-            'departament_id',
+//            'id',
+//            'client_id',
+            [
+                'attribute'=>'client_id',
+                'value'=>function($d){
+                    return $d->client->name;
+                },
+                'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Client::find()->where(['status'=>1])->all(),'id',function($d){return $d->name.' '.$d->phone;}),
+            ],
+//            'departament_id',
+            [
+                'attribute'=>'departament_id',
+                'value'=>function($d){
+                    return $d->departament->name;
+                },
+                'filter'=>ArrayHelper::map(\common\models\Departament::find()->where(['status'=>1])->all(),'id','name'),
+            ],
             'price',
-            'description:ntext',
+//            'description:ntext',
             //'state',
             //'status',
-            //'created',
+            'created',
             //'updated',
             //'register_id',
             //'modify_id',

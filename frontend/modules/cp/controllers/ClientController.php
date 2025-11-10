@@ -3,7 +3,9 @@
 namespace frontend\modules\cp\controllers;
 
 use common\models\Client;
+use common\models\ClientPaid;
 use common\models\LocDistrict;
+use common\models\search\ClientPaidSearch;
 use common\models\search\ClientSearch;
 use frontend\components\Common;
 use yii\web\Controller;
@@ -49,6 +51,81 @@ class ClientController extends Controller
         ]);
     }
 
+    public function actionCredit()
+    {
+        $searchModel = new ClientSearch();
+        $searchModel->show_type = 'credit';
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionDebt()
+    {
+        $searchModel = new ClientSearch();
+        $searchModel->show_type = 'debit';
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionPay($id){
+        $model = new ClientPaid();
+        $model->client_id = $id;
+        if($model->load($this->request->post())){
+            $model->register_id = Yii::$app->user->id;
+            $model->modify_id = Yii::$app->user->id;
+            if($model->save()){
+                Yii::$app->session->setFlash('success','Ma`lumot saqlandi');
+                Common::calcPriceClient($id);
+            }else{
+                Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
+            }
+            return $this->redirect(['view','id'=>$id]);
+        }
+        return $this->renderAjax('_pay', [
+            'model' => $model,
+        ]);
+    }
+    public function actionPayUpdate($id){
+
+        $model = ClientPaid::findOne($id);
+
+        if($model->load($this->request->post())){
+            $model->modify_id = Yii::$app->user->id;
+            if($model->save()){
+                Yii::$app->session->setFlash('success','Ma`lumot saqlandi');
+                Common::calcPriceClient($model->client_id);
+            }else{
+                Yii::$app->session->setFlash('error','Ma`lumotni saqlashda xatolik');
+            }
+            return $this->redirect(['view','id'=>$model->client_id]);
+        }
+        return $this->renderAjax('_pay', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPayDelete($id)
+    {
+        $model = ClientPaid::findOne($id);
+        $model->status = -1;
+        $model->modify_id = Yii::$app->user->id;
+        if($model->save()){
+            Yii::$app->session->setFlash('success','Amal bajarildi');
+            Common::calcPriceClient($model->client_id);
+        }else{
+            Yii::$app->session->setFlash('error','Amalni bajarishda xatolik');
+        }
+        return $this->redirect(['view','id'=>$model->client_id]);
+    }
+
     /**
      * Displays a single Client model.
      * @param int $id ID
@@ -57,8 +134,14 @@ class ClientController extends Controller
      */
     public function actionView($id)
     {
+        $searchPaidModel = new ClientPaidSearch();
+        $searchPaidModel->client_id = $id;
+        $dataPaidProvider = $searchPaidModel->search($this->request->queryParams);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'searchPaidModel' => $searchPaidModel,
+            'dataPaidProvider' => $dataPaidProvider,
         ]);
     }
 
