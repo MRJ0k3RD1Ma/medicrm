@@ -2,6 +2,8 @@
 
 namespace frontend\modules\cp\controllers;
 
+use common\models\Client;
+use common\models\LocDistrict;
 use common\models\Visit;
 use common\models\search\VisitSearch;
 use yii\web\Controller;
@@ -68,7 +70,7 @@ class VisitController extends Controller
     public function actionCreate()
     {
         $model = new Visit();
-
+        $client = new Client();
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $model->register_id = Yii::$app->user->id;
@@ -86,8 +88,72 @@ class VisitController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'client' => $client,
         ]);
     }
+
+    public function actionSearch($name = null, $phone = null)
+    {
+        $model = Client::find()->where(['status'=>1]);
+        if($name){
+            $model->andFilterWhere(['like','name',$name]);
+        }
+        if($phone){
+            $model->andFilterWhere(['like','phone',str_replace('_', '', $phone)]);
+        }
+        $model = $model->all();
+        if(count($model)>0){
+            $res = "";
+            foreach ($model as $item){
+                $words = explode(' ', $item->name);
+                $result = '';
+
+                foreach ($words as $word) {
+                    $result .= mb_substr($word, 0, 2); // har bir so‘zning 2 ta harfini oladi
+                }
+
+                $res .= "<li class='liveuser-item' onclick='setUser( {$item->id} )'>
+                    <div class='avatar'>{$result}</div>
+                    <div class='info'>
+                        <div class='title'>{$item->name}</div>
+                        <div class='sub'>{$item->phone}</div>
+                    </div>
+                </li>";
+
+            }
+            return $res;
+        }else{
+            return -1;
+        }
+    }
+
+    public function actionGetuser($id){
+        $model = Client::findOne($id);
+        if($model){
+            $dist = LocDistrict::find()->where(['region_id'=>$model->region_id])->all();
+            $res = "";
+            foreach ($dist as $item){
+                $res .= "<option value='{$item->id}'>{$item->name}</option>";
+            }
+            return json_encode([
+                'id'=>$model->id,
+                'name'=>$model->name,
+                'phone'=>$model->phone,
+                'group_id'=>$model->group_id,
+                'gender'=>$model->gender,
+                'birthday'=>$model->birthday,
+                'region_id'=>$model->region_id,
+                'district_id'=>$model->district_id,
+                'districts'=>$res,
+                'address'=>$model->address,
+                'source_id'=>$model->source_id,
+                'description'=>$model->description,
+            ]);
+        }else{
+            return -1;
+        }
+    }
+
 
     /**
      * Updates an existing Visit model.
